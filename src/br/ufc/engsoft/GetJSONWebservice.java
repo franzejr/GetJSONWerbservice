@@ -37,7 +37,7 @@ public class GetJSONWebservice extends Activity {
  
     	ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
         
-        
+        //URL JSON
         JSONObject json = JSONFunctions.getJSONfromURL("http://lia.ufc.br/~franzejr/friends.json");
                 
         try{
