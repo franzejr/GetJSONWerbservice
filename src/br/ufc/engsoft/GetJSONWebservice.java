@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GetJSONWebservice extends Activity {
@@ -38,22 +40,23 @@ public class GetJSONWebservice extends Activity {
     	ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
         
         //URL JSON
-        JSONObject json = JSONFunctions.getJSONfromURL("http://lia.ufc.br/~franzejr/friends.json");
+        String json = JSONFunctions.getJSONfromURL("http://wiki.dc.ufc.br/mediawiki/api.php?action=parse&format=json&page=Matem%C3%A1tica_Discreta&prop=text");
                 
         try{
+        	JSONObject json1 = new JSONObject(json);
+        	String title = (String)json1.getJSONObject("parse").getString("title");
+        	String text = (String)json1.getJSONObject("parse").getJSONObject("text").getString("*");
+        	Log.i("title",title);
+        	Log.i("text",text);
+        	Log.i("json todo",json1.toString());
         	
-        	JSONArray  friends = json.getJSONArray("data");
+        	TextView text_title =  (TextView)findViewById(R.id.title);
+        	TextView text_text =  (TextView)findViewById(R.id.text);
         	
-	        for(int i=0;i<friends.length();i++){						
-				HashMap<String, String> map = new HashMap<String, String>();	
-				JSONObject e = friends.getJSONObject(i);
-				
-				map.put("id",  String.valueOf(i));
-	        	map.put("name", "name:" + e.getString("name"));
-	        	Log.i("name",e.getString("name"));
-	        	mylist.add(map);			
-			}
-	        Log.i("text", mylist.toString());
+        	text_title.setText(Html.fromHtml(title));
+        	text_text.setText(Html.fromHtml(text));
+        	
+	     
         }catch(JSONException e)        {
         	 Log.e("log_tag", "Error parsing data "+e.toString());
         }

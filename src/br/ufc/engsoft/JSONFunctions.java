@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class JSONFunctions {
 
-	public static JSONObject getJSONfromURL(String url){
+	public static String getJSONfromURL(String url){
 		InputStream is = null;
 		String result = "";
 		JSONObject jArray = null;
@@ -56,7 +56,8 @@ public class JSONFunctions {
 	    }catch(JSONException e){
 	            Log.e("log_tag", "Error parsing data "+e.toString());
 	    }
+	    Log.i("result",result);
     
-	    return jArray;
+	    return result;
 	}
 }
