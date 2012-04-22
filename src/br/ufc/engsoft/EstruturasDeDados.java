@@ -1,31 +1,24 @@
 package br.ufc.engsoft;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import br.ufc.engsoft.beans.Post;
+import br.ufc.engsoft.util.JSONFunctions;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import br.ufc.engsoft.beans.Post;
-import br.ufc.engsoft.util.JSONFunctions;
 
-public class GetJSONWebservice extends Activity {
-	/** Called when the activity is first created. */
-	MenuItem ed;
+public class EstruturasDeDados extends Activity {
+
+	MenuItem main;
 	MenuItem circuitos;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.estruturas);
 
 		// Pegando elementos da Tela
 		TextView text_title = (TextView) findViewById(R.id.title);
@@ -33,30 +26,28 @@ public class GetJSONWebservice extends Activity {
 
 		// URL JSON
 		Post p = JSONFunctions
-				.getPost("http://wiki.dc.ufc.br/mediawiki/api.php?action=parse&format=json&page=C%C3%A1lculo_I&prop=text");
-		
-		//Setando elementos na tela
+				.getPost("http://wiki.dc.ufc.br/mediawiki/api.php?action=parse&format=json&page=Estruturas_de_Dados&prop=text");
+
+		// Setando elementos na tela
 		text_title.setText(Html.fromHtml(p.getTitle()));
 		text_text.setText(Html.fromHtml(p.getText()));
-
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		ed = menu.add("Estruturas de Dados");
+		main = menu.add("Calculo I");
 		circuitos = menu.add("Circuitos Digitais");
 		return true;
 	}
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if(item == ed){
-			startActivity(new Intent(GetJSONWebservice.this,EstruturasDeDados.class));
+		if(item == main){
+			startActivity(new Intent(EstruturasDeDados.this,GetJSONWebservice.class));
 		}else if( item == circuitos){
-			startActivity(new Intent(GetJSONWebservice.this,CircuitosDigitais.class));
+			startActivity(new Intent(EstruturasDeDados.this,CircuitosDigitais.class));
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
-
 }
